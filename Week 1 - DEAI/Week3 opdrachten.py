@@ -26,6 +26,14 @@ class LinkedList(ABC):
     def sortSimple(self):
         pass
 
+    @abstractmethod
+    def uniq(self):
+        pass
+
+    @abstractmethod
+    def count(self):
+        pass
+
 class LinkedListEmpty(LinkedList):
     def __init__(self):
         pass
@@ -46,6 +54,16 @@ class LinkedListEmpty(LinkedList):
     def sortSimple(self):
         # Boş liste zaten sıralıdır, kendisini döndürürüz.
         return self
+    
+   
+    # --- SORU 8: Boş listede kopya silme ve sayma ---
+    def uniq(self):
+        # Boş bir listede tekrar eden eleman olamaz, kendini döndürür
+        return self
+
+    def count(self):
+        # Boş listenin eleman sayısı sıfırdır
+        return 0
 
 class LinkedListPopulated(LinkedList):
     def __init__(self, head, tail):
@@ -93,6 +111,23 @@ class LinkedListPopulated(LinkedList):
         
         # 4. En küçük değeri, sıralanmış geri kalan listenin en başına ekliyoruz.
         return sorted_rest.addFirst(min_value)
+    
+    # --- SORU 8: Dolu listede kopya silme ve sayma ---
+    def uniq(self):
+        # Önce arkamızdaki vagonların kendi içindeki kopyaları temizlemesini istiyoruz
+        unique_tail = self.tail.uniq()
+        
+        # Eğer arkamızdaki liste boş DEĞİLSE ve bizim plakamız arkamızdaki ilk plakayla AYNIYSA:
+        if isinstance(unique_tail, LinkedListPopulated) and self.head == unique_tail.head:
+            # Biz fazlalığız (kopyayız), kendimizi atlıyoruz ve doğrudan arkamızı döndürüyoruz
+            return unique_tail
+        else:
+            # Eğer plakamız benzersizse kendimizi koruyoruz ve temizlenmiş kuyruğu arkamıza takıyoruz
+            return LinkedListPopulated(self.head, unique_tail)
+
+    def count(self):
+        # Kendi varlığımız için 1 sayıyoruz, arkamızdaki vagonların sayısıyla topluyoruz
+        return 1 + self.tail.count()
 
 
 # --- TEST KODLARI ---
@@ -151,3 +186,17 @@ sorted_plates = license_plates.sortSimple()
 
 # Sıralanmış listeyi ekrana yazdırıyoruz
 print("Sorted Plates:\n", sorted_plates.toString())
+
+# --- SORU 8 Testi ---
+print("\n--- SORU 8 Testi ---")
+
+# Önce dosyadaki toplam plaka sayısını sayalım
+total_plates = sorted_plates.count()
+print("Total number of plates:", total_plates)
+
+# Listemizi kopyalardan arındıralım (uniq)
+unique_plates = sorted_plates.uniq()
+
+# Kopyalar silindikten sonra kalan benzersiz plakaları sayalım
+unique_count = unique_plates.count()
+print("Number of UNIQUE plates:", unique_count)
