@@ -1,3 +1,5 @@
+import csv
+import sys
 from abc import ABC, abstractmethod
 
 # --- SORU 1: Temel Sınıfların Oluşturulması ---
@@ -38,7 +40,7 @@ class LinkedListEmpty(LinkedList):
         return self
 
     def smallest(self):
-        return float('inf')
+        return None
 
     # --- SORU 6: Boş listeyi sıralama ---
     def sortSimple(self):
@@ -62,8 +64,17 @@ class LinkedListPopulated(LinkedList):
         else:
             return LinkedListPopulated(self.head, self.tail.remove(value))
 
+    # --- SORU 5: Dolu listede en küçük elemanı bulma ---
     def smallest(self):
         rest_smallest = self.tail.smallest()
+        
+        # Eğer arkamızdaki liste boşsa (None döndüyse), kıyaslayacak kimse yoktur. 
+        # Bu yüzden en küçük değer mecburen bizim kendi değerimizdir.
+        if rest_smallest is None:
+            return self.head
+            
+        # Eğer arkada başka vagonlar varsa, onlardan gelen değerle kendimizi kıyaslarız.
+        # Bu yapı hem sayılarla (4 < 7) hem de metinlerle ("A" < "Z") sorunsuz çalışır.
         if self.head < rest_smallest:
             return self.head
         else:
@@ -116,3 +127,27 @@ print("Original list for Q6:", f"'{list_q6.toString()}'")
 sorted_list = list_q6.sortSimple()
 # Sıralanmış halini yazdırıyoruz (Beklenen: '4 4 5 7 ')
 print("Sorted list:", f"'{sorted_list.toString()}'")
+
+# --- SORU 7: Plaka Dosyasını Okuma ve Sıralama ---
+print("\n--- SORU 7 Testi ---")
+
+# Derin özyineleme (recursion) işlemleri için Python'un sınırını artırıyoruz
+sys.setrecursionlimit(20000000)
+
+# Boş bir plaka listesi oluşturuyoruz
+license_plates = LinkedListEmpty()
+
+# kentekens1000.txt dosyasını açıp okuyoruz
+with open('Week 1 - DEAI/kentekens1000.txt', 'r') as f:
+    reader = csv.reader(f, delimiter=',')
+    for row in reader:
+        # Her satırın ilk elemanını (plakayı) listemizin başına ekliyoruz
+        license_plates = license_plates.addFirst(row[0])
+
+print("File loaded. Sorting started... (This may take a few seconds depending on your computer)")
+
+# Listeyi küçükten büyüğe sıralıyoruz
+sorted_plates = license_plates.sortSimple()
+
+# Sıralanmış listeyi ekrana yazdırıyoruz
+print("Sorted Plates:\n", sorted_plates.toString())
