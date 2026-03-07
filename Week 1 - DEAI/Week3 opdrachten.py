@@ -7,55 +7,112 @@ class LinkedList(ABC):
     def toString(self):
         pass
         
-    # --- SORU 3: Alt sınıfların addFirst metoduna sahip olmasını zorunlu kılıyoruz ---
     @abstractmethod
     def addFirst(self, value):
+        pass
+
+    @abstractmethod
+    def remove(self, value):
+        pass
+
+    @abstractmethod
+    def smallest(self):
+        pass
+
+    # --- SORU 6: Alt sınıfların sortSimple metoduna sahip olmasını zorunlu kılıyoruz ---
+    @abstractmethod
+    def sortSimple(self):
         pass
 
 class LinkedListEmpty(LinkedList):
     def __init__(self):
         pass
         
-    # --- SORU 2: Boş liste için toString metodu ---
     def toString(self):
         return ""
 
-    # --- SORU 3: Boş listeye eleman ekleme ---
     def addFirst(self, value):
-        # Boş listenin başına eleman eklersek, yeni değer 'head', 
-        # mevcut boş liste ('self') ise 'tail' olur.
         return LinkedListPopulated(value, self)
+
+    def remove(self, value):
+        return self
+
+    def smallest(self):
+        return float('inf')
+
+    # --- SORU 6: Boş listeyi sıralama ---
+    def sortSimple(self):
+        # Boş liste zaten sıralıdır, kendisini döndürürüz.
+        return self
 
 class LinkedListPopulated(LinkedList):
     def __init__(self, head, tail):
         self.head = head  
         self.tail = tail  
         
-    # --- SORU 2: Dolu liste için toString metodu ---
     def toString(self):
         return str(self.head) + " " + self.tail.toString()
 
-    # --- SORU 3: Dolu listeye eleman ekleme ---
     def addFirst(self, value):
-        # En başa yepyeni bir kutu ekliyoruz. 
-        # Yeni kutunun arkasına (tail) mevcut listenin tamamını (self) bağlıyoruz.
         return LinkedListPopulated(value, self)
 
+    def remove(self, value):
+        if self.head == value:
+            return self.tail
+        else:
+            return LinkedListPopulated(self.head, self.tail.remove(value))
 
-# --- SORU 2 & 3: Test Kodları ---
+    def smallest(self):
+        rest_smallest = self.tail.smallest()
+        if self.head < rest_smallest:
+            return self.head
+        else:
+            return rest_smallest
 
-print("--- Soru 2 Testleri ---")
+    # --- SORU 6: Dolu listeyi sıralama ---
+    def sortSimple(self):
+        # 1. Listedeki en küçük değeri buluyoruz.
+        min_value = self.smallest()
+        
+        # 2. En küçük değeri orijinal listeden (sadece bir kez) siliyoruz.
+        rest_list = self.remove(min_value)
+        
+        # 3. Geri kalan listeyi kendi içinde sıralıyoruz (Özyineleme/Recursion).
+        sorted_rest = rest_list.sortSimple()
+        
+        # 4. En küçük değeri, sıralanmış geri kalan listenin en başına ekliyoruz.
+        return sorted_rest.addFirst(min_value)
+
+
+# --- TEST KODLARI ---
+
+print("--- Soru 2, 3, 4, 5 Testleri ---")
 list_0 = LinkedListEmpty()
 print("List with 0 elements:", f"'{list_0.toString()}'")
 
-list_1 = LinkedListPopulated(4, LinkedListEmpty())
-print("List with 1 element:", f"'{list_1.toString()}'")
-
-# Soru 3'teki örneği yapabilmek için [4, 7] listesini original_list olarak tanımlıyoruz
 original_list = LinkedListPopulated(4, LinkedListPopulated(7, LinkedListEmpty()))
-print("List with 2 elements (original_list):", f"'{original_list.toString()}'")
+print("List with 2 elements:", f"'{original_list.toString()}'")
 
-print("\n--- Soru 3 Testi ---")
-# original_list'in başına 5 ekleyip new_list adında yeni bir liste elde ediyoruz
 new_list = original_list.addFirst(5)
 print("After addFirst(5):", f"'{new_list.toString()}'")
+
+list_q4 = LinkedListPopulated(5, LinkedListPopulated(4, LinkedListPopulated(7, LinkedListPopulated(4, LinkedListEmpty()))))
+print("Original list for Q4:", f"'{list_q4.toString()}'")
+
+list_q4_removed_once = list_q4.remove(4)
+print("After first remove(4):", f"'{list_q4_removed_once.toString()}'")
+
+list_q5 = LinkedListPopulated(5, LinkedListPopulated(4, LinkedListPopulated(7, LinkedListEmpty())))
+print("List for Q5:", f"'{list_q5.toString()}'")
+print("Smallest value:", list_q5.smallest())
+
+
+print("\n--- SORU 6 Testi ---")
+# Ödevde istenen liste: 5, 4, 7, 4
+list_q6 = LinkedListPopulated(5, LinkedListPopulated(4, LinkedListPopulated(7, LinkedListPopulated(4, LinkedListEmpty()))))
+print("Original list for Q6:", f"'{list_q6.toString()}'")
+
+# Listeyi sıralıyoruz
+sorted_list = list_q6.sortSimple()
+# Sıralanmış halini yazdırıyoruz (Beklenen: '4 4 5 7 ')
+print("Sorted list:", f"'{sorted_list.toString()}'")
