@@ -34,6 +34,11 @@ class LinkedList(ABC):
     def count(self):
         pass
 
+    # --- SORU 9: Alt sınıfların reverse metoduna sahip olmasını zorunlu kılıyoruz ---
+    @abstractmethod
+    def reverse(self, acc=None):
+        pass
+
 class LinkedListEmpty(LinkedList):
     def __init__(self):
         pass
@@ -64,6 +69,15 @@ class LinkedListEmpty(LinkedList):
     def count(self):
         # Boş listenin eleman sayısı sıfırdır
         return 0
+    
+    # --- SORU 9: Boş listeyi tersine çevirme ---
+    def reverse(self, acc=None):
+        # Eğer biriktirici (acc) henüz oluşturulmamışsa, boş listenin tersi yine kendisidir.
+        if acc is None:
+            return self
+        # Eğer biriktirici liste doluysa ve zincirin sonuna (boş kutuya) ulaştıysak,
+        # tersine çevrilmiş ve birikmiş o yeni listeyi geri döndürüyoruz.
+        return acc
 
 class LinkedListPopulated(LinkedList):
     def __init__(self, head, tail):
@@ -128,6 +142,21 @@ class LinkedListPopulated(LinkedList):
     def count(self):
         # Kendi varlığımız için 1 sayıyoruz, arkamızdaki vagonların sayısıyla topluyoruz
         return 1 + self.tail.count()
+    
+    # --- SORU 9: Dolu listeyi tersine çevirme ---
+    def reverse(self, acc=None):
+        # Metot ilk kez çağrıldığında acc (biriktirici) boştur. 
+        # Hemen kendimize yeni, boş bir liste oluşturuyoruz.
+        if acc is None:
+            acc = LinkedListEmpty()
+            
+        # Kendi değerimizi (self.head) alıp, bu yeni biriktirici listenin EN BAŞINA ekliyoruz.
+        # Bu sayede ilk aldığımız eleman, işlem bittiğinde en sonda kalmış olacak.
+        new_acc = acc.addFirst(self.head)
+        
+        # Orijinal listedeki bir sonraki vagona (tail) geçiyoruz ve
+        # "Elimdeki bu yeni listeye (new_acc) sen de kendi değerini ekle" diyerek işi devrediyoruz.
+        return self.tail.reverse(new_acc)
 
 
 # --- TEST KODLARI ---
@@ -200,3 +229,13 @@ unique_plates = sorted_plates.uniq()
 # Kopyalar silindikten sonra kalan benzersiz plakaları sayalım
 unique_count = unique_plates.count()
 print("Number of UNIQUE plates:", unique_count)
+
+# --- SORU 9 Testi ---
+print("\n--- SORU 9 Testi ---")
+
+# Kopyalardan arındırılmış (unique_plates) listemizi tersine çeviriyoruz
+reversed_plates = unique_plates.reverse()
+
+# Ters çevrilmiş listeyi ekrana yazdırıyoruz
+# Sonuç Z harfiyle başlayıp A'ya ve sayılara doğru geriye gitmeli!
+print("Reversed Plates (Z to A):\n", reversed_plates.toString())
