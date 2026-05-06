@@ -1,0 +1,9 @@
+Experiment ID;Features Used;Val Set Size;Hidden Layers;Nodes;Epochs;Batch Size;Learning Rate;MAE Error ($);R2 Score;Description
+1;All;20%;1;[64];50;32;0.01;59629.8;0.3057;Baseline (All Features)
+2;Subset;20%;1;[64];50;32;0.01;83993.02;-0.134;Baseline (Subset)
+3;Subset;10%;2;[128, 64];100;32;0.001;26294.92;0.8013;Val Size 10%, 2 Layers
+4;Subset;30%;2;[128, 64];100;32;0.001;26393.38;0.7925;Val Size 30%, 2 Layers
+5;All;20%;3;[256, 128, 64];150;32;0.001;22696.42;0.8248;Deep Net (All Features)
+6;Subset;20%;3;[256, 128, 64];150;32;0.001;23069.63;0.8265;Deep Net (Subset)
+7;Subset;20%;2;[128, 64];200;64;0.001;25549.89;0.8062;More Epochs, Large Batch
+8;All;20%;2;[128, 64];100;32;0.0005;41993.77;0.5717;Low Learning Rate
