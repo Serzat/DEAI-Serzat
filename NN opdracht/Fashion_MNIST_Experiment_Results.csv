@@ -1,11 +1,11 @@
 Experiment ID;Description;Layers;Nodes;Epochs;Batch Size;Learning Rate;Accuracy
-1;Baseline Model;1;[128];10;32;0.001;0.8792
-2;More Epochs;1;[128];30;32;0.001;0.8884
-3;Deeper Network (2 Hidden);2;[128, 64];15;32;0.001;0.8799
-4;Wider & Deeper Network;2;[256, 128];15;32;0.001;0.888
-5;Very Deep Network;3;[256, 128, 64];20;64;0.001;0.8927
-6;Large Batch Size (Fast);2;[128, 64];15;128;0.001;0.8836
-7;High Learning Rate;2;[128, 64];15;32;0.01;0.8493
-8;Low Learning Rate (Slow & Steady);2;[128, 64];20;32;0.0001;0.8777
-9;Small Sized Network;1;[32];15;32;0.001;0.8749
-10;Max Power (Heavy Model);2;[512, 256];30;64;0.001;0.8929
+1;Baseline Model;1;[128];10;32;0.001;0.8833
+2;More Epochs;1;[128];30;32;0.001;0.8889
+3;Deeper Network (2 Hidden);2;[128, 64];15;32;0.001;0.8892
+4;Wider & Deeper Network;2;[256, 128];15;32;0.001;0.892
+5;Very Deep Network;3;[256, 128, 64];20;64;0.001;0.8963
+6;Large Batch Size (Fast);2;[128, 64];15;128;0.001;0.8835
+7;High Learning Rate;2;[128, 64];15;32;0.01;0.8395
+8;Low Learning Rate (Slow & Steady);2;[128, 64];20;32;0.0001;0.8813
+9;Small Sized Network;1;[32];15;32;0.001;0.8719
+10;Max Power (Heavy Model);2;[512, 256];30;64;0.001;0.895
