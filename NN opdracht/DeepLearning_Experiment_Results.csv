@@ -1,11 +1,11 @@
-Experiment ID;Description;Layers;Nodes;Epochs;Batch Size;Learning Rate;Accuracy
-1;Baseline;2;[12, 9];10;32;0.001;0.9402
-2;More Epochs;2;[12, 9];50;32;0.001;0.9814
-3;Wider Network;2;[32, 16];20;32;0.001;0.9688
-4;Wider Network + More Epochs;2;[32, 16];50;32;0.001;0.9801
-5;Deeper Network (3 Layers);3;[64, 32, 16];20;32;0.001;0.9774
-6;Shallow Network (1 Layer);1;[16];20;32;0.001;0.9728
-7;High Learning Rate;2;[32, 16];20;32;0.01;0.9769
-8;Low Learning Rate;2;[32, 16];20;32;0.0001;0.9407
-9;Larger Batch Size;2;[32, 16];20;128;0.001;0.9516
-10;Max Power;3;[64, 64, 32];100;32;0.001;0.986
+Experiment ID;Description;Epochs;Accuracy
+1;Baseline;10;0.9914
+2;More Epochs;50;0.9946
+3;Wider Network;20;0.9946
+4;Wider + More Epochs;50;0.9941
+5;Deeper Network (3);20;0.9946
+6;Shallow Network (1);20;0.9946
+7;High Learning Rate;20;0.995
+8;Low Learning Rate;20;0.9919
+9;Larger Batch Size;20;0.9928
+10;Max Power;100;0.9937
