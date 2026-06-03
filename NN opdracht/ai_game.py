@@ -59,6 +59,11 @@ frame_count = 0
 running = True
 game_over = False
 
+# --- REAL-TIME CLOCK SETUP ---
+# Get the exact millisecond when the game starts
+start_ticks = pygame.time.get_ticks()
+score_seconds = 0
+
 # --- MAIN GAME LOOP ---
 while running:
     # 1. Event Handling
@@ -67,6 +72,10 @@ while running:
             running = False
 
     if not game_over:
+        # --- REAL-TIME SCORE CALCULATION ---
+        # Calculate real elapsed seconds using the system clock (independent of FPS)
+        score_seconds = (pygame.time.get_ticks() - start_ticks) // 1000
+
         # 2. Spawn Falling Rocks
         frame_count += 1
         if frame_count % ROCK_SPAWN_RATE == 0:
@@ -98,7 +107,7 @@ while running:
                     min_distance = distance
                     closest_rock = rock
 
-        # 4. AI DECISION MAKING (The Magic Happens Here)
+        # 4. AI DECISION MAKING
         if closest_rock:
             # FEATURE ENGINEERING: Calculate the horizontal distance
             delta_x = player_x - closest_rock[0]
@@ -128,8 +137,7 @@ while running:
             pygame.draw.rect(screen, RED, (rock[0], rock[1], rock_size, rock_size))
             
         # --- SCORE RENDERING ---
-        # Calculate survival time in seconds based on frames per second
-        score_seconds = frame_count // FPS
+        # Display the real-time seconds on the top-left corner
         score_font = pygame.font.SysFont("Arial", 24, bold=True)
         score_text = score_font.render(f"Score (Overlevingstijd): {score_seconds} sec", True, WHITE)
         screen.blit(score_text, (10, 10))
@@ -140,9 +148,9 @@ while running:
         text = font.render("AI FAILED", True, WHITE)
         screen.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
         
-        # Draw Final Score
+        # Draw Final Score (Frozen at the exact moment of death)
         final_score_font = pygame.font.SysFont("Arial", 30)
-        final_score_text = final_score_font.render(f"Final Score: {frame_count // FPS} seconden", True, LIGHT_GRAY)
+        final_score_text = final_score_font.render(f"Final Score: {score_seconds} seconden", True, LIGHT_GRAY)
         screen.blit(final_score_text, (WIDTH//2 - final_score_text.get_width()//2, HEIGHT//2 + 50))
 
     pygame.display.flip()
