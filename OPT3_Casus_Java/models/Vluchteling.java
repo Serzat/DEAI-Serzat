@@ -1,5 +1,6 @@
 //Mültecinin temel bilgilerini, ülkesini, kaldığı AZCyi ve dosyasını bağladığımız ana sınıf.
 package models;
+
 public class Vluchteling {
     private String naam;
     private Land landVanHerkomst;
@@ -9,8 +10,8 @@ public class Vluchteling {
     public Vluchteling(String naam, Land landVanHerkomst) {
         this.naam = naam;
         this.landVanHerkomst = landVanHerkomst;
-        this.dossier = new Dossier(); // Kayıt anında otomatik dosya oluşturulur[cite: 56].
-        this.huidigAZC = null; // Başlangıçta bir AZC'ye atanmamış olabilir[cite: 54].
+        this.dossier = new Dossier(this); // GÜNCELLEME: Dosyaya mültecinin kendisini bağladık.
+        this.huidigAZC = null;
     }
 
     public void plaatsInAZC(AZC nieuwAZC) {
