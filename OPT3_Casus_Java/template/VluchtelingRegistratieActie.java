@@ -18,16 +18,16 @@ public class VluchtelingRegistratieActie extends ActieVerwerker {
 
     @Override
     protected void voerHoofdActieUit() {
-        System.out.println("Ana işlem: Mülteci sisteme eklendi -> " + vluchteling.getNaam());
+        System.out.println("\"Hoofdactie: Vluchteling is toegevoegd aan het systeem -> " + vluchteling.getNaam());
     }
 
     @Override
     protected void werkAdministratieBij() {
-        System.out.println("Yönetim: Yeni dosya kaydı aktif hale getirildi.");
+        System.out.println("Administratie: Nieuw dossier is geactiveerd.");
     }
 
     @Override
     protected void geefTerugkoppeling() {
-        System.out.println("Log: Kayıt işlemi başarıyla tamamlandı.\n");
+        System.out.println("Log: Registratie succesvol afgerond.\n");
     }
 }

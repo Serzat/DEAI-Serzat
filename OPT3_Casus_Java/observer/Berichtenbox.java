@@ -11,7 +11,7 @@ public class Berichtenbox implements DossierObserver {
     @Override
     public void update(Bericht bericht) {
         ongelezenBerichten.add(bericht);
-        System.out.println("🔔 BİLDİRİM: Berichtenbox'a yeni mesaj düştü -> " + bericht.getInhoud());
+        System.out.println("MELDING: Nieuw bericht in Berichtenbox -> " + bericht.getInhoud());
     }
 
     public List<Bericht> getOngelezenBerichten() {

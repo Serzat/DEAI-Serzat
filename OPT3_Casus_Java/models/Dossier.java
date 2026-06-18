@@ -1,4 +1,4 @@
-//Mültecinin pasaport durumu, başvurusu ve dava süreçlerini takip ettiğimiz yer. (Observer Patterni kurgularken bu sınıfta bir değişiklik olduğunda bildirim göndereceğiz).
+// Mültecinin pasaport durumu, başvurusu ve dava süreçlerini takip ettiğimiz yer. (Observer Patterni kurgularken bu sınıfta bir değişiklik olduğunda bildirim göndereceğiz).
 package models;
 
 import observer.DossierSubject;
@@ -20,7 +20,7 @@ public class Dossier implements DossierSubject {
     public void setUitspraak(String uitspraak) {
         this.uitspraak = uitspraak;
         // Dosyada bir gelişme olduğunda sisteme otomatik bildirim fırlatıyoruz!
-        stuurNotificatie(new Bericht(eigenaar, "Dossier Update", eigenaar.getNaam() + " adlı mültecinin yeni dosya kararı: " + uitspraak));
+        stuurNotificatie(new Bericht(eigenaar, "Dossier Update", eigenaar.getNaam() + " - Nieuwe uitspraak in dossier: " + uitspraak));
     }
 
     public String getUitspraak() { return uitspraak; }

@@ -23,17 +23,17 @@ public class VluchtelingPlaatsingActie extends ActieVerwerker {
     protected void voerHoofdActieUit() {
         vluchteling.plaatsInAZC(nieuwAZC);
         nieuwAZC.voegVluchtelingToe(vluchteling);
-        System.out.println("Ana işlem: " + vluchteling.getNaam() + " adlı mülteci " + nieuwAZC.getGemeente().getNaam() + " AZC'sine yerleştirildi.");
+        System.out.println("Hoofdactie: Vluchteling " + vluchteling.getNaam() + " is geplaatst in AZC " + nieuwAZC.getGemeente().getNaam());
     }
 
     @Override
     protected void werkAdministratieBij() {
         nieuwAZC.getGemeente().voegVluchtelingToe();
-        System.out.println("Yönetim: Belediyenin yerleştirilmiş mülteci sayısı güncellendi.");
+        System.out.println("Administratie: Aantal geplaatste vluchtelingen in de gemeente is bijgewerkt.");
     }
 
     @Override
     protected void geefTerugkoppeling() {
-        System.out.println("Log: Yerleştirme (Plaatsing) işlemi tamamlandı.\n");
+        System.out.println("Log: Plaatsing succesvol afgerond.\n");
     }
 }

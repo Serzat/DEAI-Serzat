@@ -32,4 +32,3 @@ public class Gemeente {
     public int getAantalInwoners() { return aantalInwoners; }
     public int getAangebodenPlaatsen() { return aangebodenPlaatsen; }
 }
-}
