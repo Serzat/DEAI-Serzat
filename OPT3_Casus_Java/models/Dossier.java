@@ -48,5 +48,3 @@ public class Dossier implements DossierSubject {
 
 
 
-//Mültecinin iltica durumu (geaccepteerd/afgewezen) burada tutulur. İçine kurduğumuz Observer Pattern sayesinde, 
-//durumda en ufak bir değişiklik olduğunda abone olan tüm sistemlere otomatik olarak bağırıp haber verir.

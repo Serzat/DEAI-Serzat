@@ -1,4 +1,3 @@
-//AZCnin temel adres bilgilerini, bağlı olduğu belediyeyi ve içinde kalan mültecilerin listesini içeriyor.
 package models;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,38 +7,50 @@ public class AZC {
     private String straat;
     private String huisnummer;
     private String postcode;
-    // A private variable of type 'Gemeente'. Links this AZC to a specific municipality object.
+    // Private variable to store the associated Gemeente (municipality) object
     private Gemeente gemeente;
-    // A private List that holds 'Vluchteling' (Refugee) objects. Keeps track of who lives here.
+    // Private list variable to store the refugees housed in this center
     private List<Vluchteling> gehuisvesteVluchtelingen;
-    // Constructor method:
+
+    // Constructor:
     public AZC(String naam, String straat, String huisnummer, String postcode, Gemeente gemeente) {
         this.naam = naam;
         this.straat = straat;
         this.huisnummer = huisnummer;
         this.postcode = postcode;
         this.gemeente = gemeente;
-        // Initializes the empty list as an ArrayList so we can add refugees to it later without errors.
+        // Initializes the gehuisvesteVluchtelingen list as a new empty ArrayList
         this.gehuisvesteVluchtelingen = new ArrayList<>();
+        
+        // Checks if the provided gemeente object is not null before proceeding
+        if (gemeente != null) {
+            // Calls the voegAZCToe method on the gemeente object to link this AZC to it
+            gemeente.voegAZCToe(this);
+        }
     }
-    // Method to add a refugee to this AZC. Takes a 'Vluchteling' object as a parameter (v).
+
+    // Method to add a refugee to the list of housed refugees in this center
     public void voegVluchtelingToe(Vluchteling v) {
-        // Uses the .add() method of the List to put the refugee 'v' into the memory of this AZC.
+        // Adds the provided vluchteling object to the gehuisvesteVluchtelingen list
         gehuisvesteVluchtelingen.add(v);
     }
-    // Method to remove a refugee from this AZC (e.g., if they leave or transfer).
+
+    // Method to remove a refugee from the list of housed refugees in this center
     public void verwijderVluchteling(Vluchteling v) {
-        // Uses the .remove() method of the List to delete the refugee 'v' from this AZC's memory.
+        // Removes the provided vluchteling object from the gehuisvesteVluchtelingen list
         gehuisvesteVluchtelingen.remove(v);
     }
-    // Getter method: Returns the specific Gemeente object that this AZC belongs to.
+
+    // Getter method to return the associated Gemeente object
     public Gemeente getGemeente() { return gemeente; }
+    // Getter method to return the name of the AZC
     public String getNaam() { return naam; }
+    // Getter method to return the street name of the AZC
     public String getStraat() { return straat; }
+    // Getter method to return the house number of the AZC
     public String getHuisnummer() { return huisnummer; }
+    // Getter method to return the postal code of the AZC
     public String getPostcode() { return postcode; }
-    // Getter method: Returns the complete list of refugees currently living in this AZC.
+    // Getter method to return the complete list of refugees housed here
     public List<Vluchteling> getGehuisvesteVluchtelingen() { return gehuisvesteVluchtelingen; }
 }
-
-//mutlaka bir Gemeente'ye (Belediyeye) bağlı olmak zorundadır. İçinde, o an kampta kalan mültecilerin tutulduğu bir liste barındırır.
