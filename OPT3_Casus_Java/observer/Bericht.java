@@ -1,7 +1,4 @@
-
 package observer;
-
-
 import models.Vluchteling;
 
 

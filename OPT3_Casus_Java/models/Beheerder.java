@@ -1,9 +1,5 @@
-// Defines the package name for the data models
 package models;
-
-// Imports the RapportageService class from the service package
 import service.RapportageService;
-// Imports the List interface from the java utility library
 import java.util.List;
 
 // Declares the public class named Beheerder

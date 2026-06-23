@@ -1,4 +1,3 @@
-//Rubric'te istenen alternatif kural: Boş yer yetersizse nüfusa göre en az mülteci barındıran (en düşük yoğunluklu) belediyeyi seçen algoritma.
 package strategy;
 
 import models.Gemeente;

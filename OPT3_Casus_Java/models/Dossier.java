@@ -4,14 +4,19 @@ import observer.DossierObserver;
 import observer.Bericht;
 import java.util.ArrayList;
 import java.util.List;
+
 // Declares Dossier class and implements DossierSubject, meaning it MUST use the publisher methods.
 public class Dossier implements DossierSubject {
+    
     // Private text variable to store the legal decision/status of the refugee's case.
     private String uitspraak;
+    
     // A list of  observers who want to be notified when this dossier changes.
     private List<DossierObserver> observers = new ArrayList<>();
+   
     // Private variable holding the Vluchteling (Refugee) object that owns this specific dossier.
     private Vluchteling eigenaar;
+   
     // Constructor method: Creates a dossier and links it to its owner (eigenaar).
     public Dossier(Vluchteling eigenaar) {
         // Private variable holding the Vluchteling (Refugee) object that owns this specific dossier.

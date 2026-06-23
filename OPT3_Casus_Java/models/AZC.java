@@ -45,11 +45,8 @@ public class AZC {
     public Gemeente getGemeente() { return gemeente; }
     // Getter method to return the name of the AZC
     public String getNaam() { return naam; }
-    // Getter method to return the street name of the AZC
     public String getStraat() { return straat; }
-    // Getter method to return the house number of the AZC
     public String getHuisnummer() { return huisnummer; }
-    // Getter method to return the postal code of the AZC
     public String getPostcode() { return postcode; }
     // Getter method to return the complete list of refugees housed here
     public List<Vluchteling> getGehuisvesteVluchtelingen() { return gehuisvesteVluchtelingen; }

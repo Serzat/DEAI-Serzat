@@ -1,11 +1,6 @@
-// Defines the package name for the data models
 package models;
-
-// Imports the PlaatsingsContext class from the strategy package
 import strategy.PlaatsingsContext;
-// Imports the PlaatsingsStrategie interface from the strategy package
 import strategy.PlaatsingsStrategie;
-// Imports the List interface from the java utility library
 import java.util.List;
 
 // Declares the public class named COAMedewerker

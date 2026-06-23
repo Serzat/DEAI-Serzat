@@ -1,7 +1,4 @@
-// Defines the package name for the data models
 package models;
-
-// Imports the Bericht class from the observer package
 import observer.Bericht;
 
 // Declares the public class named AZCMedewerker

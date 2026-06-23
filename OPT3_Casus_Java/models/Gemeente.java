@@ -13,13 +13,9 @@ public class Gemeente {
 
     // Constructor:
     public Gemeente(String naam, int aantalInwoners, int aangebodenPlaatsen) {
-        // Assigns the passed naam parameter to the class variable
         this.naam = naam;
-        // Assigns the passed aantalInwoners parameter to the class variable
         this.aantalInwoners = aantalInwoners;
-        // Assigns the passed aangebodenPlaatsen parameter to the class variable
         this.aangebodenPlaatsen = aangebodenPlaatsen;
-        // Initializes the number of placed refugees to zero by default
         this.aantalGeplaatsteVluchtelingen = 0;
         // Initializes the azcs list as a new empty ArrayList
         this.azcs = new ArrayList<>();

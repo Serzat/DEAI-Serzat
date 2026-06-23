@@ -1,5 +1,3 @@
-//Bildirim gönderecek sınıfın (Dossier) uyması gereken kurallar
-
 package observer;
 
 public interface DossierSubject {

@@ -1,4 +1,3 @@
-//Rubric'te istenen ilk kural: En çok boş yeri olan belediyeyi seçen algoritma.
 package strategy;
 
 import models.Gemeente;

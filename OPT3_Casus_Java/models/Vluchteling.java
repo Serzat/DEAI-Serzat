@@ -1,8 +1,6 @@
-//Mültecinin temel bilgilerini, ülkesini, kaldığı AZCyi ve dosyasını bağladığımız ana sınıf.
+
 package models;
-// Declares the Vluchteling class, the central object of our COA application.
 public class Vluchteling {
-    // Private text variable to store the refugee's full name.
     private String naam;
     private Land landVanHerkomst;
     private AZC huidigAZC; 
@@ -12,7 +10,7 @@ public class Vluchteling {
     public Vluchteling(String naam, Land landVanHerkomst) {
         this.naam = naam;
         this.landVanHerkomst = landVanHerkomst;
-        // IMPORTANT: Automatically creates a brand new 'Dossier' as soon as the refugee is registered.
+        // Automatically creates a brand new 'Dossier' as soon as the refugee is registered.
         // 'this' is passed so the Dossier knows EXACTLY which refugee it belongs to.
         this.dossier = new Dossier(this); 
         // When first registered, the refugee is not in an AZC yet, so it is set to 'null' (empty).
@@ -32,6 +30,3 @@ public class Vluchteling {
     // Getter method: Returns the 'Land' object representing their country of origin.
     public Land getLandVanHerkomst() { return landVanHerkomst; }
 }
-
-//Sistemin ana karakteri ve merkez noktasıdır. Bütün diğer dosyalar bu karakterin etrafında birleşir. 
-// Bir mülteci; bir Land'dan gelir, bir AZC'de kalır ve bir Dossier'ye sahiptir. Diğer tüm sınıfları birbirine bağlayan köprü budur.

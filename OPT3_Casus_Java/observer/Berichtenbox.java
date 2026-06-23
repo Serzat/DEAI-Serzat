@@ -1,5 +1,3 @@
-//AZC'nin içindeki mesaj kutusu. Yeni bir güncelleme olduğunda anında buraya düşecek.
-
 package observer;
 
 import java.util.ArrayList;
