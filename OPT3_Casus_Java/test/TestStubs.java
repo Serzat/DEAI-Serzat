@@ -1,3 +1,9 @@
+// STUB KLASSE: Mocking/Stubbing voor JUnit-testen
+// Deze klasse fungeert als een 'stand-in' voor de daadwerkelijke Berichtenbox. 
+// In plaats van output naar de console te sturen, verzamelt deze stub de inkomende berichten in een interne lijst (logMessages). 
+// Hierdoor kunnen de testklassen (via asserts) nauwkeurig verifiëren of de notificaties daadwerkelijk zijn verzonden en ontvangen, zonder afhankelijk te zijn van console-output.
+
+
 package test;
 import observer.Bericht;
 import observer.DossierObserver;

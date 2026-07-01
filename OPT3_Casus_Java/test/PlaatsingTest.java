@@ -1,3 +1,16 @@
+// TEST 1: Randwaarden (Boundary Value) Test
+    // Test of het systeem correct omgaat met een lege lijst van gemeentes en veilig 'null' retourneert zonder te crashen.
+
+    // TEST 2: Capaciteit Test
+    // Test of het algoritme correct functioneert wanneer de beschikbare capaciteit 0 is, aangezien dit de enige beschikbare optie in de lijst is.
+
+    // TEST 3: Observer Pattern Test (met Stub)
+    // Test of een wijziging in de dossierstatus (bijv. 'afgewezen') succesvol een automatische notificatie triggert naar de geabonneerde Berichtenbox.
+
+    // TEST 4: Berichtverwerking Test
+    // Test de statusovergang van een Bericht-object; controleert of het correct van 'onverwerkt' naar 'verwerkt' gaat na toewijzing van een specifieke kamer.
+
+
 package test;
 import static org.junit.Assert.*;
 import org.junit.Test;
