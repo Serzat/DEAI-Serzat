@@ -1,8 +1,11 @@
 package test;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import models.AZC;
+import models.Dossier;
 import models.Gemeente;
 import models.Land;
 import models.Vluchteling;
@@ -20,7 +23,10 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+/** Regressietests voor selectie, plaatsing, validatie en het Observer Pattern. */
 public class PlaatsingTest {
+    // Strategy Pattern: grenswaarden en correcte selectie.
+
     @Test
     public void legeGemeenteLijstGeeftGeenPlaatsing() {
         PlaatsingsContext context = new PlaatsingsContext();
@@ -63,6 +69,15 @@ public class PlaatsingTest {
     }
 
     @Test
+    public void contextZonderStrategieGeeftDuidelijkeFout() {
+        PlaatsingsContext context = new PlaatsingsContext();
+
+        assertThrows(IllegalStateException.class, () -> context.voerPlaatsingUit(List.of()));
+    }
+
+    // Domeinmodel: beide kanten van relaties en capaciteit moeten gelijk blijven.
+
+    @Test
     public void plaatsingHoudtBeideKantenVanRelatieBij() {
         Gemeente gemeente = new Gemeente("Delft", 100_000, 2);
         AZC azc = new AZC("AZC Delft", "Markt", "1", "2611 AA", gemeente);
@@ -74,6 +89,19 @@ public class PlaatsingTest {
         assertTrue(azc.getGehuisvesteVluchtelingen().contains(vluchteling));
         assertEquals(1, gemeente.getAantalGeplaatsteVluchtelingen());
         assertEquals(1, gemeente.getVrijePlaatsen());
+    }
+
+    @Test
+    public void dubbelePlaatsingInHetzelfdeAzcHeeftGeenBijwerking() {
+        Gemeente gemeente = new Gemeente("Delft", 100_000, 2);
+        AZC azc = new AZC("AZC Delft", "Markt", "1", "2611 AA", gemeente);
+        Vluchteling vluchteling = new Vluchteling("Testpersoon", new Land("Testland", true));
+
+        vluchteling.plaatsInAZC(azc);
+        vluchteling.plaatsInAZC(azc);
+
+        assertEquals(1, azc.getGehuisvesteVluchtelingen().size());
+        assertEquals(1, gemeente.getAantalGeplaatsteVluchtelingen());
     }
 
     @Test
@@ -92,7 +120,6 @@ public class PlaatsingTest {
         assertEquals(0, eersteGemeente.getAantalGeplaatsteVluchtelingen());
         assertEquals(1, tweedeGemeente.getAantalGeplaatsteVluchtelingen());
     }
-
 
     @Test
     public void verhuizingBinnenVolleGemeenteBlijftMogelijk() {
@@ -144,6 +171,21 @@ public class PlaatsingTest {
     }
 
     @Test
+    public void interneMutatiemethodenZijnNietPubliek() throws NoSuchMethodException {
+        Method azcToevoegen = AZC.class.getDeclaredMethod("voegVluchtelingToe", Vluchteling.class);
+        Method azcVerwijderen = AZC.class.getDeclaredMethod("verwijderVluchteling", Vluchteling.class);
+        Method gemeenteToevoegen = Gemeente.class.getDeclaredMethod("voegVluchtelingToe");
+        Method gemeenteVerwijderen = Gemeente.class.getDeclaredMethod("verwijderVluchteling");
+
+        assertFalse(Modifier.isPublic(azcToevoegen.getModifiers()));
+        assertFalse(Modifier.isPublic(azcVerwijderen.getModifiers()));
+        assertFalse(Modifier.isPublic(gemeenteToevoegen.getModifiers()));
+        assertFalse(Modifier.isPublic(gemeenteVerwijderen.getModifiers()));
+    }
+
+    // Observer Pattern en berichtenverwerking.
+
+    @Test
     public void observerOntvangtEenBerichtBijStatuswijziging() {
         Vluchteling vluchteling = new Vluchteling("Test Ali", new Land("Syrië", false));
         TestStubs.BerichtenboxStub stub = new TestStubs.BerichtenboxStub();
@@ -168,6 +210,14 @@ public class PlaatsingTest {
     }
 
     @Test
+    public void nullObserverKanNietWordenVerwijderd() {
+        Vluchteling vluchteling = new Vluchteling("Test Ali", new Land("Syrië", false));
+        Dossier dossier = vluchteling.getDossier();
+
+        assertThrows(NullPointerException.class, () -> dossier.verwijderObserver(null));
+    }
+
+    @Test
     public void verwerktBerichtIsNietMeerOngelezen() {
         Vluchteling vluchteling = new Vluchteling("Testpersoon", new Land("Testland", true));
         Berichtenbox berichtenbox = new Berichtenbox();
@@ -181,6 +231,23 @@ public class PlaatsingTest {
         assertEquals("Kamer 101", bericht.getKamer());
         assertTrue(berichtenbox.getOngelezenBerichten().isEmpty());
         assertEquals(1, berichtenbox.getAlleBerichten().size());
+    }
+
+    @Test
+    public void berichtKanNietTweemaalWordenVerwerkt() {
+        Vluchteling vluchteling = new Vluchteling("Testpersoon", new Land("Testland", true));
+        Bericht bericht = new Bericht(vluchteling, "Plaatsing", "Nieuwe plaatsing");
+        bericht.markeerAlsVerwerkt("Kamer 101");
+
+        assertThrows(IllegalStateException.class, () -> bericht.markeerAlsVerwerkt("Kamer 202"));
+        assertEquals("Kamer 101", bericht.getKamer());
+    }
+
+    // Validatie en defensieve collecties.
+
+    @Test
+    public void legeVerplichteTekstWordtAfgewezen() {
+        assertThrows(IllegalArgumentException.class, () -> new Land("   ", true));
     }
 
     @Test

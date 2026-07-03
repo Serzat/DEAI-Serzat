@@ -5,6 +5,10 @@ import models.Vluchteling;
 
 import static util.Validatie.vereisTekst;
 
+/**
+ * Notificatie over een vluchteling. Een bericht begint onverwerkt en kan één
+ * keer door een AZC-medewerker aan een kamer worden gekoppeld.
+ */
 public final class Bericht {
     private final Vluchteling vluchteling;
     private final String typeBericht;
@@ -41,10 +45,10 @@ public final class Bericht {
 
     public void markeerAlsVerwerkt(String kamer) {
         if (verwerkt) {
+            // Dubbele verwerking zou de oorspronkelijke administratie overschrijven.
             throw new IllegalStateException("Dit bericht is al verwerkt.");
         }
         this.kamer = vereisTekst(kamer, "kamer");
         this.verwerkt = true;
     }
-
 }

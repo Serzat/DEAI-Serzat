@@ -5,6 +5,7 @@ import observer.Bericht;
 
 import static util.Validatie.vereisTekst;
 
+/** Medewerker die een binnengekomen plaatsingsbericht administratief verwerkt. */
 public final class AZCMedewerker {
     private final String naam;
 
@@ -21,5 +22,4 @@ public final class AZCMedewerker {
         System.out.println("MELDING VERWERKT: " + bericht.getVluchteling().getNaam()
                 + " is geregistreerd in '" + kamer + "'.");
     }
-
 }

@@ -1,5 +1,9 @@
 package template;
 
+/**
+ * Basisklasse van het Template Method Pattern. De vaste procesvolgorde staat
+ * in de finale methode verwerkActie en kan daarom niet door subklassen worden gewijzigd.
+ */
 public abstract class ActieVerwerker {
     public final void verwerkActie() {
         if (!controleerVoorwaarden()) {
@@ -7,11 +11,13 @@ public abstract class ActieVerwerker {
             return;
         }
 
+        // Deze volgorde is voor iedere concrete actie hetzelfde.
         voerHoofdActieUit();
         werkAdministratieBij();
         geefTerugkoppeling();
     }
 
+    // Primitive operations: subklassen vullen alleen deze afzonderlijke stappen in.
     protected abstract boolean controleerVoorwaarden();
 
     protected abstract void voerHoofdActieUit();

@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Objects;
 import models.Gemeente;
 
+/**
+ * Selecteert de beschikbare gemeente met de laagste verhouding tussen geplaatste
+ * vluchtelingen en inwoners. Bij gelijke belasting wint de gemeente met meer ruimte.
+ */
 public final class LaagsteRelatieveBelastingStrategie implements PlaatsingsStrategie {
     @Override
     public Gemeente kiesGemeente(List<Gemeente> gemeentes) {
@@ -14,6 +18,7 @@ public final class LaagsteRelatieveBelastingStrategie implements PlaatsingsStrat
 
         for (Gemeente gemeente : gemeentes) {
             if (gemeente == null || gemeente.getVrijePlaatsen() <= 0) {
+                // Null-items en volle gemeentes zijn geen geldige kandidaat.
                 continue;
             }
 

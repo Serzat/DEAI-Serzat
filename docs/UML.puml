@@ -58,13 +58,13 @@ package models {
         - aantalGeplaatsteVluchtelingen: int
         - azcs: List<AZC>
         + Gemeente(naam: String, aantalInwoners: int, aangebodenPlaatsen: int)
-        + voegAZCToe(azc: AZC): void
+        ~ voegAZCToe(azc: AZC): void
         + getAzcs(): List<AZC>
         + getVrijePlaatsen(): int
         + getAantalGeplaatsteVluchtelingen(): int
         + getRelatieveBelasting(): double
-        + voegVluchtelingToe(): void
-        + verwijderVluchteling(): void
+        ~ voegVluchtelingToe(): void
+        ~ verwijderVluchteling(): void
         + getNaam(): String
         + getAantalInwoners(): int
         + getAangebodenPlaatsen(): int
@@ -78,8 +78,8 @@ package models {
         - gemeente: Gemeente
         - gehuisvesteVluchtelingen: List<Vluchteling>
         + AZC(naam: String, straat: String, huisnummer: String, postcode: String, gemeente: Gemeente)
-        + voegVluchtelingToe(vluchteling: Vluchteling): void
-        + verwijderVluchteling(vluchteling: Vluchteling): void
+        ~ voegVluchtelingToe(vluchteling: Vluchteling): void
+        ~ verwijderVluchteling(vluchteling: Vluchteling): void
         + getGemeente(): Gemeente
         + getNaam(): String
         + getStraat(): String

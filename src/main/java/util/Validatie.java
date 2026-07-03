@@ -2,8 +2,10 @@ package util;
 
 import java.util.Objects;
 
+/** Gedeelde validatiefuncties voor verplichte tekstvelden. */
 public final class Validatie {
     private Validatie() {
+        // Utilityklasse: bevat uitsluitend statische functies.
     }
 
     public static String vereisTekst(String waarde, String veldnaam) {

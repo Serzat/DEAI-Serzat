@@ -2,6 +2,7 @@ package template;
 
 import models.Vluchteling;
 
+/** Concrete Template Method-actie voor de registratie van een vluchteling. */
 public final class VluchtelingRegistratieActie extends ActieVerwerker {
     private final Vluchteling vluchteling;
 
@@ -11,6 +12,7 @@ public final class VluchtelingRegistratieActie extends ActieVerwerker {
 
     @Override
     protected boolean controleerVoorwaarden() {
+        // De constructor accepteert null zodat de Template Method de actie gecontroleerd kan annuleren.
         return vluchteling != null;
     }
 

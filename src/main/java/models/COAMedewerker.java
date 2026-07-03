@@ -7,6 +7,7 @@ import strategy.PlaatsingsStrategie;
 
 import static util.Validatie.vereisTekst;
 
+/** Gebruikt een gekozen plaatsingsstrategie om automatisch een gemeente te selecteren. */
 public final class COAMedewerker {
     private final String naam;
     private final PlaatsingsContext context = new PlaatsingsContext();
@@ -23,8 +24,9 @@ public final class COAMedewerker {
 
         System.out.println("Systeem: COA-medewerker " + naam
                 + " voert het automatische plaatsingsproces uit.");
+
+        // De context kent alleen het strategiecontract en niet het concrete algoritme.
         context.setStrategie(strategie);
         return context.voerPlaatsingUit(gemeentes);
     }
-
 }

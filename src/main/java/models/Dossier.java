@@ -9,6 +9,10 @@ import observer.DossierSubject;
 
 import static util.Validatie.vereisTekst;
 
+/**
+ * Subject binnen het Observer Pattern. Zodra de uitspraak verandert, ontvangen
+ * alle geregistreerde observers automatisch een nieuw bericht.
+ */
 public final class Dossier implements DossierSubject {
     private String uitspraak = "geen";
     private final List<DossierObserver> observers = new ArrayList<>();
@@ -21,8 +25,10 @@ public final class Dossier implements DossierSubject {
     public void setUitspraak(String uitspraak) {
         String nieuweUitspraak = vereisTekst(uitspraak, "uitspraak");
         if (this.uitspraak.equals(nieuweUitspraak)) {
+            // Een identieke statuswijziging mag geen dubbele notificatie veroorzaken.
             return;
         }
+
         this.uitspraak = nieuweUitspraak;
         stuurNotificatie(new Bericht(
                 eigenaar,
@@ -44,15 +50,17 @@ public final class Dossier implements DossierSubject {
 
     @Override
     public void verwijderObserver(DossierObserver observer) {
+        Objects.requireNonNull(observer, "observer mag niet null zijn.");
         observers.remove(observer);
     }
 
     @Override
     public void stuurNotificatie(Bericht bericht) {
         Objects.requireNonNull(bericht, "bericht mag niet null zijn.");
+
+        // Itereren over een kopie voorkomt problemen wanneer een observer zichzelf verwijdert.
         for (DossierObserver observer : List.copyOf(observers)) {
             observer.update(bericht);
         }
     }
-
 }

@@ -6,6 +6,10 @@ import java.util.Objects;
 
 import static util.Validatie.vereisTekst;
 
+/**
+ * Bevat de gemeentelijke capaciteit en de actuele belasting door plaatsingen.
+ * De plaatsingsstrategieën gebruiken deze gegevens om een gemeente te kiezen.
+ */
 public final class Gemeente {
     private final String naam;
     private final int aantalInwoners;
@@ -25,7 +29,8 @@ public final class Gemeente {
         this.aangebodenPlaatsen = aangebodenPlaatsen;
     }
 
-    public void voegAZCToe(AZC azc) {
+    /** Registreert intern een AZC dat aantoonbaar bij deze gemeente hoort. */
+    void voegAZCToe(AZC azc) {
         Objects.requireNonNull(azc, "AZC mag niet null zijn.");
         if (azc.getGemeente() != this) {
             throw new IllegalArgumentException("Het AZC behoort niet tot deze gemeente.");
@@ -36,6 +41,7 @@ public final class Gemeente {
     }
 
     public List<AZC> getAzcs() {
+        // De interne ArrayList mag niet rechtstreeks door aanroepers worden aangepast.
         return List.copyOf(azcs);
     }
 
@@ -48,17 +54,20 @@ public final class Gemeente {
     }
 
     public double getRelatieveBelasting() {
+        // Door casten naar double blijft de verhouding nauwkeurig en ontstaat geen integerdeling.
         return (double) aantalGeplaatsteVluchtelingen / aantalInwoners;
     }
 
-    public void voegVluchtelingToe() {
+    /** Reserveert intern één gemeentelijke plaats en bewaakt de bovengrens. */
+    void voegVluchtelingToe() {
         if (getVrijePlaatsen() <= 0) {
             throw new IllegalStateException("Gemeente " + naam + " heeft geen vrije plaatsen meer.");
         }
         aantalGeplaatsteVluchtelingen++;
     }
 
-    public void verwijderVluchteling() {
+    /** Geeft intern één gemeentelijke plaats vrij en bewaakt de ondergrens. */
+    void verwijderVluchteling() {
         if (aantalGeplaatsteVluchtelingen <= 0) {
             throw new IllegalStateException("Er kan geen plaatsing uit gemeente " + naam + " worden verwijderd.");
         }
@@ -76,5 +85,4 @@ public final class Gemeente {
     public int getAangebodenPlaatsen() {
         return aangebodenPlaatsen;
     }
-
 }

@@ -221,8 +221,8 @@
 <text text-anchor="start" x="626" y="-966" font-family="Arial" font-size="10.00">&#45; gemeente: Gemeente</text>
 <text text-anchor="start" x="626" y="-955" font-family="Arial" font-size="10.00">&#45; gehuisvesteVluchtelingen: List&lt;Vluchteling&gt;</text>
 <polygon fill="none" stroke="black" points="621,-893 621,-947 855,-947 855,-893 621,-893"/>
-<text text-anchor="start" x="626" y="-934" font-family="Arial" font-size="10.00">+ voegVluchtelingToe(...): void</text>
-<text text-anchor="start" x="626" y="-923" font-family="Arial" font-size="10.00">+ verwijderVluchteling(...): void</text>
+<text text-anchor="start" x="626" y="-934" font-family="Arial" font-size="10.00">~ voegVluchtelingToe(...): void</text>
+<text text-anchor="start" x="626" y="-923" font-family="Arial" font-size="10.00">~ verwijderVluchteling(...): void</text>
 <text text-anchor="start" x="626" y="-912" font-family="Arial" font-size="10.00">+ getGemeente(): Gemeente</text>
 <text text-anchor="start" x="626" y="-901" font-family="Arial" font-size="10.00">+ getGehuisvesteVluchtelingen(): List&lt;Vluchteling&gt;</text>
 </g>
@@ -303,8 +303,8 @@
 <polygon fill="none" stroke="black" points="1004,-836 1004,-901 1169,-901 1169,-836 1004,-836"/>
 <text text-anchor="start" x="1009" y="-888" font-family="Arial" font-size="10.00">+ getVrijePlaatsen(): int</text>
 <text text-anchor="start" x="1009" y="-877" font-family="Arial" font-size="10.00">+ getRelatieveBelasting(): double</text>
-<text text-anchor="start" x="1009" y="-866" font-family="Arial" font-size="10.00">+ voegVluchtelingToe(): void</text>
-<text text-anchor="start" x="1009" y="-855" font-family="Arial" font-size="10.00">+ verwijderVluchteling(): void</text>
+<text text-anchor="start" x="1009" y="-866" font-family="Arial" font-size="10.00">~ voegVluchtelingToe(): void</text>
+<text text-anchor="start" x="1009" y="-855" font-family="Arial" font-size="10.00">~ verwijderVluchteling(): void</text>
 <text text-anchor="start" x="1028.5" y="-844" font-family="Arial" font-size="10.00">+ getAzcs(): List&lt;AZC&gt;</text>
 </g>
 <!-- Gemeente&#45;&gt;Validatie -->

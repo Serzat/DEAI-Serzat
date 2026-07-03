@@ -6,6 +6,7 @@ import service.RapportageService;
 
 import static util.Validatie.vereisTekst;
 
+/** Beheerder die via een aparte service managementinformatie kan opvragen. */
 public final class Beheerder {
     private final String naam;
     private final RapportageService rapportageService;
@@ -14,6 +15,7 @@ public final class Beheerder {
         this(naam, new RapportageService());
     }
 
+    /** Extra constructor maakt dependency injection en geïsoleerd testen mogelijk. */
     public Beheerder(String naam, RapportageService rapportageService) {
         this.naam = vereisTekst(naam, "naam");
         this.rapportageService = Objects.requireNonNull(
@@ -24,5 +26,4 @@ public final class Beheerder {
         System.out.println("Systeem: Beheerder " + naam + " heeft een rapportage aangevraagd.");
         rapportageService.genereerManagementRapport(gemeentes);
     }
-
 }

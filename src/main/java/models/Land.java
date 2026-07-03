@@ -2,6 +2,7 @@ package models;
 
 import static util.Validatie.vereisTekst;
 
+/** Waardeobject met de naam van een land en de bijbehorende veiligheidsstatus. */
 public final class Land {
     private final String naam;
     private final boolean veilig;
@@ -18,5 +19,4 @@ public final class Land {
     public boolean isVeilig() {
         return veilig;
     }
-
 }

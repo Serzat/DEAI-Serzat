@@ -6,6 +6,10 @@ import java.util.Objects;
 
 import static util.Validatie.vereisTekst;
 
+/**
+ * Een asielzoekerscentrum met adresgegevens, een gekoppelde gemeente en
+ * de vluchtelingen die op dit moment in het centrum zijn gehuisvest.
+ */
 public final class AZC {
     private final String naam;
     private final String straat;
@@ -20,19 +24,31 @@ public final class AZC {
         this.huisnummer = vereisTekst(huisnummer, "huisnummer");
         this.postcode = vereisTekst(postcode, "postcode");
         this.gemeente = Objects.requireNonNull(gemeente, "gemeente mag niet null zijn.");
+
+        // Houd de relatie Gemeente -> AZC direct bij de constructie consistent.
         gemeente.voegAZCToe(this);
     }
 
-    public void voegVluchtelingToe(Vluchteling vluchteling) {
+    /**
+     * Interne mutatiemethode. Alleen modelklassen in hetzelfde package mogen
+     * bewoners toevoegen; externe code moet altijd Vluchteling.plaatsInAZC gebruiken.
+     */
+    void voegVluchtelingToe(Vluchteling vluchteling) {
         Objects.requireNonNull(vluchteling, "vluchteling mag niet null zijn.");
         if (gehuisvesteVluchtelingen.contains(vluchteling)) {
             return;
         }
+
+        // Eerst capaciteit reserveren, daarna de bewoner toevoegen.
         gemeente.voegVluchtelingToe();
         gehuisvesteVluchtelingen.add(vluchteling);
     }
 
-    public void verwijderVluchteling(Vluchteling vluchteling) {
+    /**
+     * Interne mutatiemethode voor een verhuizing. De gemeenteteller wordt alleen
+     * verlaagd wanneer de vluchteling daadwerkelijk in dit AZC stond geregistreerd.
+     */
+    void verwijderVluchteling(Vluchteling vluchteling) {
         Objects.requireNonNull(vluchteling, "vluchteling mag niet null zijn.");
         if (gehuisvesteVluchtelingen.remove(vluchteling)) {
             gemeente.verwijderVluchteling();
@@ -60,7 +76,7 @@ public final class AZC {
     }
 
     public List<Vluchteling> getGehuisvesteVluchtelingen() {
+        // Een defensieve, niet-wijzigbare kopie voorkomt externe lijstmutaties.
         return List.copyOf(gehuisvesteVluchtelingen);
     }
-
 }

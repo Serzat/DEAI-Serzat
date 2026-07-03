@@ -6,6 +6,7 @@ import java.util.Objects;
 import models.AZC;
 import models.Gemeente;
 
+/** Genereert een tekstuele managementrapportage van gemeentes en hun AZC's. */
 public final class RapportageService {
     public void genereerManagementRapport(List<Gemeente> gemeentes) {
         Objects.requireNonNull(gemeentes, "gemeentes mag niet null zijn.");
@@ -17,6 +18,7 @@ public final class RapportageService {
         }
 
         for (Gemeente gemeente : gemeentes) {
+            // Een incidenteel null-item mag de gehele rapportage niet blokkeren.
             if (gemeente == null) {
                 continue;
             }
@@ -46,6 +48,7 @@ public final class RapportageService {
     }
 
     private static String formatteerGetal(int getal) {
+        // Nederlandse locale zorgt voor een punt als duizendtalscheiding.
         return String.format(Locale.forLanguageTag("nl-NL"), "%,d", getal);
     }
 }
