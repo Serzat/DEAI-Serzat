@@ -1,0 +1,224 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+left to right direction
+
+
+package util {
+    class Validatie <<utility>> {
+        + {static} vereisTekst(waarde: String, veldnaam: String): String
+    }
+}
+
+package app {
+    class Main {
+        - Main()
+        + {static} main(args: String[]): void
+    }
+}
+
+package models {
+    class Land {
+        - naam: String
+        - veilig: boolean
+        + Land(naam: String, veilig: boolean)
+        + getNaam(): String
+        + isVeilig(): boolean
+    }
+
+    class Vluchteling {
+        - naam: String
+        - landVanHerkomst: Land
+        - dossier: Dossier
+        - huidigAZC: AZC
+        + Vluchteling(naam: String, landVanHerkomst: Land)
+        + plaatsInAZC(nieuwAZC: AZC): void
+        + getHuidigAZC(): AZC
+        + getDossier(): Dossier
+        + getNaam(): String
+        + getLandVanHerkomst(): Land
+    }
+
+    class Dossier {
+        - uitspraak: String
+        - observers: List<DossierObserver>
+        - eigenaar: Vluchteling
+        + Dossier(eigenaar: Vluchteling)
+        + setUitspraak(uitspraak: String): void
+        + getUitspraak(): String
+        + voegObserverToe(observer: DossierObserver): void
+        + verwijderObserver(observer: DossierObserver): void
+        + stuurNotificatie(bericht: Bericht): void
+    }
+
+    class Gemeente {
+        - naam: String
+        - aantalInwoners: int
+        - aangebodenPlaatsen: int
+        - aantalGeplaatsteVluchtelingen: int
+        - azcs: List<AZC>
+        + Gemeente(naam: String, aantalInwoners: int, aangebodenPlaatsen: int)
+        + voegAZCToe(azc: AZC): void
+        + getAzcs(): List<AZC>
+        + getVrijePlaatsen(): int
+        + getAantalGeplaatsteVluchtelingen(): int
+        + getRelatieveBelasting(): double
+        + voegVluchtelingToe(): void
+        + verwijderVluchteling(): void
+        + getNaam(): String
+        + getAantalInwoners(): int
+        + getAangebodenPlaatsen(): int
+    }
+
+    class AZC {
+        - naam: String
+        - straat: String
+        - huisnummer: String
+        - postcode: String
+        - gemeente: Gemeente
+        - gehuisvesteVluchtelingen: List<Vluchteling>
+        + AZC(naam: String, straat: String, huisnummer: String, postcode: String, gemeente: Gemeente)
+        + voegVluchtelingToe(vluchteling: Vluchteling): void
+        + verwijderVluchteling(vluchteling: Vluchteling): void
+        + getGemeente(): Gemeente
+        + getNaam(): String
+        + getStraat(): String
+        + getHuisnummer(): String
+        + getPostcode(): String
+        + getGehuisvesteVluchtelingen(): List<Vluchteling>
+    }
+
+    class COAMedewerker {
+        - naam: String
+        - context: PlaatsingsContext
+        + COAMedewerker(naam: String)
+        + voerAutomatischePlaatsing(gemeentes: List<Gemeente>, strategie: PlaatsingsStrategie): Gemeente
+    }
+
+    class AZCMedewerker {
+        - naam: String
+        + AZCMedewerker(naam: String)
+        + verwerkBericht(bericht: Bericht, kamerNummer: String): void
+    }
+
+    class Beheerder {
+        - naam: String
+        - rapportageService: RapportageService
+        + Beheerder(naam: String)
+        + Beheerder(naam: String, rapportageService: RapportageService)
+        + vraagRapportageOp(gemeentes: List<Gemeente>): void
+    }
+}
+
+package observer {
+    interface DossierSubject {
+        + voegObserverToe(observer: DossierObserver): void
+        + verwijderObserver(observer: DossierObserver): void
+        + stuurNotificatie(bericht: Bericht): void
+    }
+
+    interface DossierObserver {
+        + update(bericht: Bericht): void
+    }
+
+    class Bericht {
+        - vluchteling: Vluchteling
+        - typeBericht: String
+        - inhoud: String
+        - verwerkt: boolean
+        - kamer: String
+        + Bericht(vluchteling: Vluchteling, typeBericht: String, inhoud: String)
+        + getInhoud(): String
+        + getVluchteling(): Vluchteling
+        + getTypeBericht(): String
+        + isVerwerkt(): boolean
+        + getKamer(): String
+        + markeerAlsVerwerkt(kamer: String): void
+    }
+
+    class Berichtenbox {
+        - berichten: List<Bericht>
+        + update(bericht: Bericht): void
+        + getOngelezenBerichten(): List<Bericht>
+        + getAlleBerichten(): List<Bericht>
+    }
+}
+
+package strategy {
+    interface PlaatsingsStrategie {
+        + kiesGemeente(gemeentes: List<Gemeente>): Gemeente
+    }
+
+    class PlaatsingsContext {
+        - actieveStrategie: PlaatsingsStrategie
+        + setStrategie(strategie: PlaatsingsStrategie): void
+        + voerPlaatsingUit(gemeentes: List<Gemeente>): Gemeente
+    }
+
+    class HoogsteVrijePlaatsenStrategie {
+        + kiesGemeente(gemeentes: List<Gemeente>): Gemeente
+    }
+
+    class LaagsteRelatieveBelastingStrategie {
+        + kiesGemeente(gemeentes: List<Gemeente>): Gemeente
+    }
+}
+
+package template {
+    abstract class ActieVerwerker {
+        + verwerkActie(): void
+        # {abstract} controleerVoorwaarden(): boolean
+        # {abstract} voerHoofdActieUit(): void
+        # {abstract} werkAdministratieBij(): void
+        # {abstract} geefTerugkoppeling(): void
+    }
+
+    class VluchtelingRegistratieActie {
+        - vluchteling: Vluchteling
+        + VluchtelingRegistratieActie(vluchteling: Vluchteling)
+    }
+
+    class VluchtelingPlaatsingActie {
+        - vluchteling: Vluchteling
+        - nieuwAZC: AZC
+        + VluchtelingPlaatsingActie(vluchteling: Vluchteling, nieuwAZC: AZC)
+    }
+}
+
+package service {
+    class RapportageService {
+        + genereerManagementRapport(gemeentes: List<Gemeente>): void
+    }
+}
+
+Vluchteling "1" --> "1" Land : landVanHerkomst
+Vluchteling "1" *-- "1" Dossier : dossier
+Vluchteling "0..1" --> "1" AZC : huidigAZC
+Dossier ..|> DossierSubject
+Dossier "1" o-- "*" DossierObserver : observers
+Dossier --> Bericht : maakt
+Gemeente "1" o-- "*" AZC : azcs
+AZC "1" --> "1" Gemeente : gemeente
+AZC "1" o-- "*" Vluchteling : bewoners
+Berichtenbox ..|> DossierObserver
+Berichtenbox "1" o-- "*" Bericht : berichten
+Bericht --> Vluchteling
+PlaatsingsContext --> PlaatsingsStrategie
+HoogsteVrijePlaatsenStrategie ..|> PlaatsingsStrategie
+LaagsteRelatieveBelastingStrategie ..|> PlaatsingsStrategie
+VluchtelingRegistratieActie --|> ActieVerwerker
+VluchtelingPlaatsingActie --|> ActieVerwerker
+VluchtelingRegistratieActie --> Vluchteling
+VluchtelingPlaatsingActie --> Vluchteling
+VluchtelingPlaatsingActie --> AZC
+COAMedewerker --> PlaatsingsContext
+AZCMedewerker ..> Bericht
+Beheerder --> RapportageService
+Main ..> COAMedewerker
+Main ..> ActieVerwerker
+Main ..> Berichtenbox
+Main ..> Beheerder
+Vluchteling ..> Validatie : valideert
+Gemeente ..> Validatie : valideert
+Bericht ..> Validatie : valideert
+@enduml
