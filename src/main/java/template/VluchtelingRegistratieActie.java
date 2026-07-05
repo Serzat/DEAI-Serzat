@@ -1,45 +1,63 @@
 package template;
-
 import models.Vluchteling;
 
-/** Concrete Template Method-action for the initial registration of a refugee. */
-// 'final' class prevents inheritance and modification of the registration sequence.
+// Concrete implementation of the Template Method for registering a refugee.
 public final class VluchtelingRegistratieActie extends ActieVerwerker {
-    
-    // Immutable reference to the refugee being registered.
+
+    // Stores the refugee that will be registered.
+    // 'final' ensures this reference cannot be changed after construction.
     private final Vluchteling vluchteling;
 
-    // Constructor: Injects the refugee object.
+    // Constructor that receives the refugee to register.
     public VluchtelingRegistratieActie(Vluchteling vluchteling) {
+
+        // Store the refugee so it can be used throughout the registration process.
         this.vluchteling = vluchteling;
     }
 
-    // Implements Step 1 of the template: Registration conditions.
+    // Step 1 of the Template Method:
+    // Validate whether the registration can continue.
     @Override
     protected boolean controleerVoorwaarden() {
-        // The constructor accepts 'null' so that the Template Method can safely catch it here 
-        // and abort the process gracefully instead of crashing the system.
+
+        // Return true only if a valid refugee object was provided.
+        // If the refugee is null, the Template Method will safely
+        // stop the registration process.
         return vluchteling != null;
     }
 
-    // Implements Step 2 of the template: Main registration action.
+    // Step 2 of the Template Method:
+    // Perform the main registration action.
     @Override
     protected void voerHoofdActieUit() {
-        System.out.println("Hoofdactie: vluchteling toegevoegd aan het systeem -> "
+
+        // Display a message indicating that the refugee
+        // has been added to the system.
+        System.out.println(
+                "Hoofdactie: vluchteling toegevoegd aan het systeem -> "
                 + vluchteling.getNaam());
     }
 
-    // Implements Step 3 of the template: Administrative updates.
+    // Step 3 of the Template Method:
+    // Show the administrative information after registration.
     @Override
     protected void werkAdministratieBij() {
-        // Logs the creation/status of the refugee's legal dossier.
-        System.out.println("Administratie: dossier is actief met uitspraak '"
-                + vluchteling.getDossier().getUitspraak() + "'.");
+
+        // Display the current status (decision) stored
+        // in the refugee's legal dossier.
+        System.out.println(
+                "Administratie: dossier is actief met uitspraak '"
+                + vluchteling.getDossier().getUitspraak()
+                + "'.");
     }
 
-    // Implements Step 4 of the template: Final system feedback.
+    // Step 4 of the Template Method:
+    // Provide the final feedback after the registration is complete.
     @Override
     protected void geefTerugkoppeling() {
+
+        // Inform the user that the registration
+        // finished successfully.
         System.out.println("Log: registratie succesvol afgerond.");
     }
 }
