@@ -24,7 +24,7 @@ import template.VluchtelingRegistratieActie;
  */
 public final class Main {
     private Main() {
-        // Utility/startklasse: er worden geen Main-objecten aangemaakt.
+        // Utility/startklasse: er worden geen Main-objecten aangemaakt
     }
 
     public static void main(String[] args) {
